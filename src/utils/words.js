@@ -43,6 +43,18 @@ export const SENTENCES = [
   'rainbow in the blue sky'
 ];
 
+export const FRUIT_WORDS = [
+  'apple', 'berry', 'grape', 'lemon', 'melon', 'peach', 'mango', 'kiwi',
+  'lime', 'cherry', 'banana', 'orange', 'plum', 'papaya', 'coconut', 'sweet',
+  'juicy', 'tasty', 'fresh', 'slice', 'fruit', 'snack', 'splash', 'yum'
+];
+
+export const DINO_WORDS = [
+  'rex', 'egg', 'roar', 'leaf', 'tree', 'rock', 'jump', 'dino', 'cave',
+  'foot', 'tail', 'claw', 'fast', 'hunt', 'tall', 'bone', 'fern', 'swamp',
+  'fossil', 'safari', 'jurassic', 'volcano', 'boulder', 'trike'
+];
+
 // Helper to get random item from array
 export const getRandomItem = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];

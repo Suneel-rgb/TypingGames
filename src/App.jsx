@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import GameCard from './components/GameCard';
@@ -8,13 +9,15 @@ import CelebrationModal from './components/CelebrationModal';
 import BalloonPop from './games/BalloonPop';
 import SpeedyRacer from './games/SpeedyRacer';
 import SpaceBlaster from './games/SpaceBlaster';
+import FruitSlicer from './games/FruitSlicer';
+import DinoRunner from './games/DinoRunner';
 import { getStoredUserData, saveUserData, recordGameResult, AVATARS_LIST } from './utils/storage';
 import { sounds } from './utils/soundEffects';
 import { Sparkles, Trophy, Zap, Keyboard, Award, HeartHandshake, Star } from 'lucide-react';
 
 export default function App() {
   const [userData, setUserData] = useState(() => getStoredUserData());
-  const [currentGame, setCurrentGame] = useState(null); // null | 'balloonPop' | 'speedyRacer' | 'spaceBlaster'
+  const [currentGame, setCurrentGame] = useState(null); // null | 'balloonPop' | 'speedyRacer' | 'spaceBlaster' | 'fruitSlicer' | 'dinoRunner'
   const [isCabinetOpen, setIsCabinetOpen] = useState(false);
   const [isAvatarPickerOpen, setIsAvatarPickerOpen] = useState(false);
   
@@ -69,9 +72,16 @@ export default function App() {
 
     setUserData({ ...updatedData });
 
+    let title = 'Round Complete!';
+    if (gameId === 'balloonPop') title = 'Popping Master!';
+    else if (gameId === 'speedyRacer') title = 'Grand Prix Winner!';
+    else if (gameId === 'spaceBlaster') title = 'Galaxy Protected!';
+    else if (gameId === 'fruitSlicer') title = 'Juice Ninja!';
+    else if (gameId === 'dinoRunner') title = 'Jurassic Champion!';
+
     setCelebrationState({
       isOpen: true,
-      title: gameId === 'balloonPop' ? 'Popping Master!' : gameId === 'speedyRacer' ? 'Race Finished!' : 'Galaxy Protected!',
+      title,
       score,
       starsEarned,
       wpm,
@@ -97,213 +107,314 @@ export default function App() {
         onToggleSound={handleToggleSound}
       />
 
-      {/* Main Content Area */}
+      {/* Main Content Area with fluid Framer Motion transitions */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
-        {/* Render Active Game */}
-        {currentGame === 'balloonPop' && (
-          <BalloonPop
-            onComplete={handleGameComplete}
-            onBackToMenu={() => setCurrentGame(null)}
-          />
-        )}
+        <AnimatePresence mode="wait">
+          {/* Active Mini-Games */}
+          {currentGame === 'balloonPop' && (
+            <motion.div
+              key="balloonPop"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+            >
+              <BalloonPop
+                onComplete={handleGameComplete}
+                onBackToMenu={() => setCurrentGame(null)}
+              />
+            </motion.div>
+          )}
 
-        {currentGame === 'speedyRacer' && (
-          <SpeedyRacer
-            onComplete={handleGameComplete}
-            onBackToMenu={() => setCurrentGame(null)}
-          />
-        )}
+          {currentGame === 'speedyRacer' && (
+            <motion.div
+              key="speedyRacer"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+            >
+              <SpeedyRacer
+                onComplete={handleGameComplete}
+                onBackToMenu={() => setCurrentGame(null)}
+              />
+            </motion.div>
+          )}
 
-        {currentGame === 'spaceBlaster' && (
-          <SpaceBlaster
-            onComplete={handleGameComplete}
-            onBackToMenu={() => setCurrentGame(null)}
-          />
-        )}
+          {currentGame === 'spaceBlaster' && (
+            <motion.div
+              key="spaceBlaster"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+            >
+              <SpaceBlaster
+                onComplete={handleGameComplete}
+                onBackToMenu={() => setCurrentGame(null)}
+              />
+            </motion.div>
+          )}
 
-        {/* Dashboard Landing View */}
-        {!currentGame && (
-          <div className="flex flex-col gap-8">
-            
-            {/* Playful Welcome Banner */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-300 via-pink-400 to-purple-400 p-6 sm:p-10 text-white shadow-xl border-4 border-white">
+          {currentGame === 'fruitSlicer' && (
+            <motion.div
+              key="fruitSlicer"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+            >
+              <FruitSlicer
+                onComplete={handleGameComplete}
+                onBackToMenu={() => setCurrentGame(null)}
+              />
+            </motion.div>
+          )}
+
+          {currentGame === 'dinoRunner' && (
+            <motion.div
+              key="dinoRunner"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+            >
+              <DinoRunner
+                onComplete={handleGameComplete}
+                onBackToMenu={() => setCurrentGame(null)}
+              />
+            </motion.div>
+          )}
+
+          {/* Dashboard Landing View */}
+          {!currentGame && (
+            <motion.div
+              key="dashboard"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
+              className="flex flex-col gap-8"
+            >
               
-              {/* Background decorative bubbles */}
-              <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-              <div className="absolute bottom-0 left-10 w-60 h-60 bg-yellow-300/20 rounded-full blur-xl pointer-events-none" />
+              {/* Playful Welcome Banner */}
+              <motion.div
+                initial={{ scale: 0.98, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-300 via-pink-400 to-purple-400 p-6 sm:p-10 text-white shadow-xl border-4 border-white"
+              >
+                {/* Background decorative bubbles */}
+                <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute bottom-0 left-10 w-60 h-60 bg-yellow-300/20 rounded-full blur-xl pointer-events-none" />
 
-              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="text-center md:text-left">
-                  <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-black mb-3">
-                    <Sparkles className="w-4 h-4 text-amber-200 animate-spin" style={{ animationDuration: '4s' }} />
-                    <span>Welcome back, Little Typist!</span>
+                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="text-center md:text-left">
+                    <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-black mb-3">
+                      <Sparkles className="w-4 h-4 text-amber-200 animate-spin" style={{ animationDuration: '4s' }} />
+                      <span>Welcome back, Little Typist!</span>
+                    </div>
+                    <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight drop-shadow-sm">
+                      Ready to Play &amp; Learn?
+                    </h1>
+                    <p className="mt-2 text-white/95 text-base sm:text-lg font-quicksand font-semibold max-w-xl">
+                      Pop balloons, race cars, blast aliens, slice juicy fruits, and jump with dinos while mastering touch typing!
+                    </p>
                   </div>
-                  <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight drop-shadow-sm">
-                    Ready to Play &amp; Learn?
-                  </h1>
-                  <p className="mt-2 text-white/95 text-base sm:text-lg font-quicksand font-semibold max-w-xl">
-                    Pop colorful balloons, race cute cars, and blast alien ships while mastering your keyboard!
-                  </p>
+
+                  {/* Mascot Card */}
+                  <motion.div 
+                    whileHover={{ scale: 1.06, rotate: [0, -3, 3, 0] }}
+                    whileTap={{ scale: 0.96 }}
+                    onClick={() => setIsAvatarPickerOpen(true)}
+                    className="bg-white/90 backdrop-blur-md p-4 sm:p-5 rounded-3xl text-slate-800 shadow-xl border-4 border-amber-200 flex items-center gap-4 cursor-pointer"
+                    title="Click to switch your buddy!"
+                  >
+                    <div className="w-16 h-16 rounded-2xl bg-pink-100 flex items-center justify-center text-4xl shadow-sm">
+                      {currentAvatar.emoji}
+                    </div>
+                    <div>
+                      <span className="text-xs font-bold text-pink-600 uppercase tracking-wider block">
+                        Your Mascot Buddy
+                      </span>
+                      <strong className="text-xl font-black text-slate-800 block">
+                        {currentAvatar.name}
+                      </strong>
+                      <span className="text-xs text-slate-500 font-semibold underline">
+                        Click to change buddy
+                      </span>
+                    </div>
+                  </motion.div>
                 </div>
 
-                {/* Mascot Card */}
-                <div 
-                  onClick={() => setIsAvatarPickerOpen(true)}
-                  className="bg-white/90 backdrop-blur-md p-4 sm:p-5 rounded-3xl text-slate-800 shadow-xl border-4 border-amber-200 flex items-center gap-4 cursor-pointer transform hover:scale-105 transition-all"
-                  title="Click to switch your buddy!"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-pink-100 flex items-center justify-center text-4xl shadow-sm">
-                    {currentAvatar.emoji}
+                {/* Quick Stats Row */}
+                <div className="mt-8 pt-6 border-t border-white/20 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                  <div className="bg-white/15 backdrop-blur-sm p-3 rounded-2xl">
+                    <span className="text-xs font-bold uppercase tracking-wider text-white/80 block">Total Stars</span>
+                    <span className="text-2xl sm:text-3xl font-black text-amber-200">{userData.stars} ⭐</span>
+                  </div>
+                  <div className="bg-white/15 backdrop-blur-sm p-3 rounded-2xl">
+                    <span className="text-xs font-bold uppercase tracking-wider text-white/80 block">Games Played</span>
+                    <span className="text-2xl sm:text-3xl font-black text-white">{userData.stats.gamesPlayed}</span>
+                  </div>
+                  <div className="bg-white/15 backdrop-blur-sm p-3 rounded-2xl">
+                    <span className="text-xs font-bold uppercase tracking-wider text-white/80 block">Words Mastered</span>
+                    <span className="text-2xl sm:text-3xl font-black text-white">{userData.stats.totalWordsTyped}</span>
+                  </div>
+                  <div className="bg-white/15 backdrop-blur-sm p-3 rounded-2xl">
+                    <span className="text-xs font-bold uppercase tracking-wider text-white/80 block">Top Speed</span>
+                    <span className="text-2xl sm:text-3xl font-black text-white">{userData.stats.bestWPM} <span className="text-xs">WPM</span></span>
+                  </div>
+                </div>
+
+              </motion.div>
+
+              {/* Games Selection Section */}
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-2xl sm:text-3xl font-black text-slate-800">
+                      Choose Your Adventure
+                    </h2>
+                    <p className="text-slate-500 font-quicksand font-bold text-sm">
+                      5 interactive games designed to build touch typing superpowers!
+                    </p>
+                  </div>
+                </div>
+
+                {/* 5 Game Cards Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  
+                  {/* 1. Balloon Pop */}
+                  <GameCard
+                    id="balloonPop"
+                    title="Balloon Pop"
+                    subtitle="Letter Recognition &amp; Home Row"
+                    tagline="Float through sunny skies! Pop rising balloons by pressing the matching key before they float away."
+                    difficulty="Beginner"
+                    difficultyColor="bg-emerald-500 text-white"
+                    icon="🎈"
+                    gradient="from-pink-400 via-rose-400 to-amber-400"
+                    shadowColor="#db2777"
+                    focusSkill="Home Row (A S D F J K L)"
+                    highScore={userData.highScores.balloonPop || 0}
+                    onPlay={handleStartGame}
+                  />
+
+                  {/* 2. Speedy Racer */}
+                  <GameCard
+                    id="speedyRacer"
+                    title="Speedy Racer"
+                    subtitle="Word Typing &amp; WPM Speed"
+                    tagline="Rev your cute racecar engine! Type sequential words to trigger turbo boosts and beat the rival AI racer."
+                    difficulty="Intermediate"
+                    difficultyColor="bg-sky-500 text-white"
+                    icon="🏎️"
+                    gradient="from-blue-500 via-sky-400 to-indigo-500"
+                    shadowColor="#2563eb"
+                    focusSkill="Speed &amp; Word Flow (WPM)"
+                    highScore={userData.highScores.speedyRacer || 0}
+                    onPlay={handleStartGame}
+                  />
+
+                  {/* 3. Space Blaster */}
+                  <GameCard
+                    id="spaceBlaster"
+                    title="Space Blaster"
+                    subtitle="Sentence &amp; Vocabulary"
+                    tagline="Guard the galaxy from descending alien UFOs! Lock your laser cannons and destroy ships with typing power."
+                    difficulty="Advanced"
+                    difficultyColor="bg-purple-500 text-white"
+                    icon="🚀"
+                    gradient="from-purple-500 via-violet-600 to-pink-500"
+                    shadowColor="#7c3aed"
+                    focusSkill="Full Sentences &amp; Vocabulary"
+                    highScore={userData.highScores.spaceBlaster || 0}
+                    onPlay={handleStartGame}
+                  />
+
+                  {/* 4. Fruit Slicer (NEW!) */}
+                  <GameCard
+                    id="fruitSlicer"
+                    title="Fruit Slicer"
+                    subtitle="Juicy Reflexes &amp; Vocabulary"
+                    tagline="Slice falling watermelons, strawberries, and pineapples in mid-air before they drop! Fast and delicious!"
+                    difficulty="Intermediate"
+                    difficultyColor="bg-emerald-500 text-white"
+                    icon="🍉"
+                    gradient="from-emerald-400 via-teal-500 to-green-600"
+                    shadowColor="#059669"
+                    focusSkill="Juicy Slicing &amp; Fruit Words"
+                    highScore={userData.highScores.fruitSlicer || 0}
+                    onPlay={handleStartGame}
+                  />
+
+                  {/* 5. Dino Runner (NEW!) */}
+                  <GameCard
+                    id="dinoRunner"
+                    title="Dino Runner"
+                    subtitle="Prehistoric Rhythm &amp; Jump"
+                    tagline="Hop over prehistoric boulders and volcanoes! Type words in rhythm to jump high and gather golden dino eggs."
+                    difficulty="Advanced"
+                    difficultyColor="bg-lime-500 text-white"
+                    icon="🦖"
+                    gradient="from-lime-400 via-emerald-500 to-teal-600"
+                    shadowColor="#65a30d"
+                    focusSkill="Rhythm, Pacing &amp; Jurassic Words"
+                    highScore={userData.highScores.dinoRunner || 0}
+                    onPlay={handleStartGame}
+                  />
+
+                </div>
+              </div>
+
+              {/* Kid Typing Guide & Interactive Feature Highlights */}
+              <div className="card-kid p-6 sm:p-8 bg-white/90 border-4 border-amber-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center text-2xl shadow-sm">
+                    💡
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-pink-600 uppercase tracking-wider block">
-                      Your Mascot Buddy
-                    </span>
-                    <strong className="text-xl font-black text-slate-800 block">
-                      {currentAvatar.name}
-                    </strong>
-                    <span className="text-xs text-slate-500 font-semibold underline">
-                      Click to change buddy
-                    </span>
+                    <h3 className="text-xl sm:text-2xl font-black text-slate-800">
+                      How Touch Typing Works for Kids
+                    </h3>
+                    <p className="text-slate-500 font-quicksand font-bold text-xs sm:text-sm">
+                      Easy secrets that make you type fast without even looking down!
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+                  <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200">
+                    <div className="text-2xl mb-1">🏠</div>
+                    <h4 className="font-black text-slate-800 text-base mb-1">1. The Home Row</h4>
+                    <p className="text-xs text-slate-600 font-quicksand font-semibold leading-relaxed">
+                      Always rest your fingers on <strong className="text-amber-800">A, S, D, F</strong> and <strong className="text-amber-800">J, K, L</strong>. Notice the small bumps on F and J!
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-sky-50/80 border border-sky-200">
+                    <div className="text-2xl mb-1">👀</div>
+                    <h4 className="font-black text-slate-800 text-base mb-1">2. Look at the Screen</h4>
+                    <p className="text-xs text-slate-600 font-quicksand font-semibold leading-relaxed">
+                      Follow the on-screen colorful keyboard guides. Trust your fingers and muscle memory!
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-purple-50/80 border border-purple-200">
+                    <div className="text-2xl mb-1">⭐</div>
+                    <h4 className="font-black text-slate-800 text-base mb-1">3. Daily Streaks</h4>
+                    <p className="text-xs text-slate-600 font-quicksand font-semibold leading-relaxed">
+                      Playing just 5 to 10 minutes a day builds blazing speed, unlocks new badges, and earns shiny stars!
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* Quick Stats Row */}
-              <div className="mt-8 pt-6 border-t border-white/20 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                <div className="bg-white/15 backdrop-blur-sm p-3 rounded-2xl">
-                  <span className="text-xs font-bold uppercase tracking-wider text-white/80 block">Total Stars</span>
-                  <span className="text-2xl sm:text-3xl font-black text-amber-200">{userData.stars} ⭐</span>
-                </div>
-                <div className="bg-white/15 backdrop-blur-sm p-3 rounded-2xl">
-                  <span className="text-xs font-bold uppercase tracking-wider text-white/80 block">Games Played</span>
-                  <span className="text-2xl sm:text-3xl font-black text-white">{userData.stats.gamesPlayed}</span>
-                </div>
-                <div className="bg-white/15 backdrop-blur-sm p-3 rounded-2xl">
-                  <span className="text-xs font-bold uppercase tracking-wider text-white/80 block">Words Mastered</span>
-                  <span className="text-2xl sm:text-3xl font-black text-white">{userData.stats.totalWordsTyped}</span>
-                </div>
-                <div className="bg-white/15 backdrop-blur-sm p-3 rounded-2xl">
-                  <span className="text-xs font-bold uppercase tracking-wider text-white/80 block">Top Speed</span>
-                  <span className="text-2xl sm:text-3xl font-black text-white">{userData.stats.bestWPM} <span className="text-xs">WPM</span></span>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Games Selection Section */}
-            <div>
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl sm:text-3xl font-black text-slate-800">
-                    Choose Your Adventure
-                  </h2>
-                  <p className="text-slate-500 font-quicksand font-bold text-sm">
-                    3 interactive games designed to build touch typing superpowers!
-                  </p>
-                </div>
-              </div>
-
-              {/* 3 Game Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                {/* 1. Balloon Pop */}
-                <GameCard
-                  id="balloonPop"
-                  title="Balloon Pop"
-                  subtitle="Letter Recognition &amp; Home Row"
-                  tagline="Float through sunny skies! Pop rising balloons by pressing the matching key before they float away."
-                  difficulty="Beginner"
-                  difficultyColor="bg-emerald-500 text-white"
-                  icon="🎈"
-                  gradient="from-pink-400 via-rose-400 to-amber-400"
-                  shadowColor="#db2777"
-                  focusSkill="Home Row (A S D F J K L)"
-                  highScore={userData.highScores.balloonPop || 0}
-                  onPlay={handleStartGame}
-                />
-
-                {/* 2. Speedy Racer */}
-                <GameCard
-                  id="speedyRacer"
-                  title="Speedy Racer"
-                  subtitle="Word Typing &amp; WPM Speed"
-                  tagline="Rev your cute racecar engine! Type sequential words to trigger turbo boosts and beat the rival AI racer."
-                  difficulty="Intermediate"
-                  difficultyColor="bg-sky-500 text-white"
-                  icon="🏎️"
-                  gradient="from-blue-500 via-sky-400 to-indigo-500"
-                  shadowColor="#2563eb"
-                  focusSkill="Speed &amp; Word Flow (WPM)"
-                  highScore={userData.highScores.speedyRacer || 0}
-                  onPlay={handleStartGame}
-                />
-
-                {/* 3. Space Blaster */}
-                <GameCard
-                  id="spaceBlaster"
-                  title="Space Blaster"
-                  subtitle="Sentence &amp; Vocabulary"
-                  tagline="Guard the galaxy from descending alien UFOs! Lock your laser cannons and destroy ships with typing power."
-                  difficulty="Advanced"
-                  difficultyColor="bg-purple-500 text-white"
-                  icon="🚀"
-                  gradient="from-purple-500 via-violet-600 to-pink-500"
-                  shadowColor="#7c3aed"
-                  focusSkill="Full Sentences &amp; Vocabulary"
-                  highScore={userData.highScores.spaceBlaster || 0}
-                  onPlay={handleStartGame}
-                />
-
-              </div>
-            </div>
-
-            {/* Kid Typing Guide & Interactive Feature Highlights */}
-            <div className="card-kid p-6 sm:p-8 bg-white/90 border-4 border-amber-200">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center text-2xl shadow-sm">
-                  💡
-                </div>
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-black text-slate-800">
-                    How Touch Typing Works for Kids
-                  </h3>
-                  <p className="text-slate-500 font-quicksand font-bold text-xs sm:text-sm">
-                    Easy secrets that make you type fast without even looking down!
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-                <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200">
-                  <div className="text-2xl mb-1">🏠</div>
-                  <h4 className="font-black text-slate-800 text-base mb-1">1. The Home Row</h4>
-                  <p className="text-xs text-slate-600 font-quicksand font-semibold leading-relaxed">
-                    Always rest your fingers on <strong className="text-amber-800">A, S, D, F</strong> and <strong className="text-amber-800">J, K, L</strong>. Notice the small bumps on F and J!
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-sky-50/80 border border-sky-200">
-                  <div className="text-2xl mb-1">👀</div>
-                  <h4 className="font-black text-slate-800 text-base mb-1">2. Look at the Screen</h4>
-                  <p className="text-xs text-slate-600 font-quicksand font-semibold leading-relaxed">
-                    Follow the on-screen colorful keyboard guides. Trust your fingers and muscle memory!
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-purple-50/80 border border-purple-200">
-                  <div className="text-2xl mb-1">⭐</div>
-                  <h4 className="font-black text-slate-800 text-base mb-1">3. Daily Streaks</h4>
-                  <p className="text-xs text-slate-600 font-quicksand font-semibold leading-relaxed">
-                    Playing just 5 to 10 minutes a day builds blazing speed, unlocks new badges, and earns shiny stars!
-                  </p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </main>
 

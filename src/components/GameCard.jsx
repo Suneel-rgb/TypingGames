@@ -1,5 +1,6 @@
 import React from 'react';
-import { Star, Trophy, ArrowRight, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Trophy, ArrowRight } from 'lucide-react';
 import { sounds } from '../utils/soundEffects';
 
 export default function GameCard({
@@ -17,8 +18,12 @@ export default function GameCard({
   onPlay,
 }) {
   return (
-    <div
-      className={`card-kid relative overflow-hidden group hover:-translate-y-2 transition-all duration-300 border-4 border-white flex flex-col justify-between`}
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: 'spring', stiffness: 280, damping: 20 }}
+      whileHover={{ y: -8, scale: 1.02 }}
+      className="card-kid relative overflow-hidden group border-4 border-white flex flex-col justify-between shadow-[0_12px_28px_rgba(0,0,0,0.08)]"
     >
       {/* Top Banner Gradient & Icon */}
       <div className={`p-6 bg-gradient-to-br ${gradient} text-white relative`}>
@@ -38,11 +43,15 @@ export default function GameCard({
           </div>
         </div>
 
-        {/* Big 3D Animated Game Icon */}
+        {/* Big 3D Animated Game Icon with Spring Hover */}
         <div className="flex justify-center my-2">
-          <div className="w-24 h-24 rounded-3xl bg-white/20 backdrop-blur-md flex items-center justify-center text-5xl shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+          <motion.div
+            whileHover={{ scale: 1.25, rotate: 12 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 12 }}
+            className="w-24 h-24 rounded-3xl bg-white/20 backdrop-blur-md flex items-center justify-center text-5xl shadow-inner cursor-pointer"
+          >
             {icon}
-          </div>
+          </motion.div>
         </div>
 
         <h3 className="text-2xl font-black text-center text-white drop-shadow-sm">
@@ -64,8 +73,10 @@ export default function GameCard({
           </p>
         </div>
 
-        {/* Action Button */}
-        <button
+        {/* Animated Play Button */}
+        <motion.button
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => {
             sounds.playClick();
             onPlay(id);
@@ -74,8 +85,8 @@ export default function GameCard({
         >
           <span>Play Now</span>
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-        </button>
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 }

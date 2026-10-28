@@ -26,18 +26,31 @@ A gamified, interactive, and colorful web application built with **React**, **Vi
   - Targeting reticle locks onto alien ships as you type words/phrases.
   - Completing the phrase fires a laser cannon from your starship to vaporize invaders before they hit your planetary shields.
 
+- **🍉 Fruit Slicer (Juicy Reaction & Fruit Vocabulary):**
+  - Tropical jungle canopy where delicious fruits (watermelons, pineapples, strawberries, bananas) drop from the trees.
+  - Typing the target words slices the fruit into two spinning halves with juicy splatter bursts and blade sound effects.
+
+- **🦖 Dino Runner (Prehistoric Platformer Rhythm & Jump):**
+  - Continuous prehistoric jungle safari runner with an adorable Tyrannosaurus Rex.
+  - Approach boulders, cacti, and volcanoes with floating obstacle words.
+  - Typing in rhythm triggers springy acrobatic dino jumps and collects golden dinosaur eggs.
+
+- **✨ Elastic & Fluid Animations (Framer Motion):**
+  - Bouncy spring physics across dashboard cards, page transitions, mascots, modals, and particles.
+  - Tactile interactive keypress states and squishy hover effects tailored for kids.
+
 - **⌨️ Interactive Virtual Keyboard:**
   - Color-coded finger zones (Pinky = Rose, Ring = Amber, Middle = Mint, Index = Sky).
   - Real-time visual feedback on pressed keys and home row anchor bumps on `F` and `J`.
 
 - **🏆 Gamification & Rewards:**
-  - **Trophy & Badge Cabinet:** 9 unlockable achievement badges (e.g. *Home Row Hero*, *Speedy Cheetah*, *Grand Prix Winner*, *Cosmic Guardian*).
+  - **Trophy & Badge Cabinet:** 12 unlockable achievement badges (e.g. *Home Row Hero*, *Speedy Cheetah*, *Grand Prix Winner*, *Cosmic Guardian*, *Fruit Slicer*, *Jurassic Jumper*, *Combo Legend*).
   - **Mascot Buddy Selector:** 8 cute avatars to cheer on young typists (*Turbo Tiger*, *Bouncing Bunny*, *Pixel Panda*, *Flash Fox*, etc.).
   - **Celebration Modals:** Confetti bursts, star ratings (1–3 stars), and score breakdowns.
   - **Persistent LocalStorage:** Saves stars, daily streaks, high scores, and statistics across browser sessions.
 
 - **🔊 Synthesized Web Audio API:**
-  - Zero-latency sound effects (pops, laser zaps, turbo whooshes, fanfare) synthesized directly in-browser with zero external asset dependencies.
+  - Zero-latency sound effects (pops, laser zaps, turbo whooshes, fruit slices, splashes, dino boings, victory fanfare) synthesized directly in-browser with zero external asset dependencies.
 
 ---
 

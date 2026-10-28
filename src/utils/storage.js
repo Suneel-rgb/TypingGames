@@ -74,6 +74,30 @@ export const BADGES_LIST = [
     icon: '🧙‍♂️',
     category: 'all',
     color: 'from-cyan-400 to-blue-600'
+  },
+  {
+    id: 'fruit_ninja',
+    title: 'Fruit Slicer',
+    desc: 'Score 100+ points in Fruit Slicer!',
+    icon: '🍉',
+    category: 'fruitSlicer',
+    color: 'from-emerald-400 to-green-600'
+  },
+  {
+    id: 'dino_rider',
+    title: 'Jurassic Jumper',
+    desc: 'Score 100+ points in Dino Runner!',
+    icon: '🦖',
+    category: 'dinoRunner',
+    color: 'from-lime-400 to-emerald-600'
+  },
+  {
+    id: 'combo_king',
+    title: 'Combo Legend',
+    desc: 'Reach a 5x typing combo in any game!',
+    icon: '⚡',
+    category: 'all',
+    color: 'from-amber-400 to-yellow-500'
   }
 ];
 
@@ -96,6 +120,8 @@ const defaultUserData = {
     balloonPop: 0,
     speedyRacer: 0,
     spaceBlaster: 0,
+    fruitSlicer: 0,
+    dinoRunner: 0,
   },
   unlockedBadges: ['first_pop'],
   soundEnabled: true,
@@ -158,6 +184,8 @@ export const checkBadgeUnlocks = (currentData) => {
   checkAndAdd('racer_champion', (highScores.speedyRacer >= 100));
   checkAndAdd('space_defender', (highScores.spaceBlaster >= 50));
   checkAndAdd('laser_master', (highScores.spaceBlaster >= 200));
+  checkAndAdd('fruit_ninja', ((highScores.fruitSlicer || 0) >= 100));
+  checkAndAdd('dino_rider', ((highScores.dinoRunner || 0) >= 100));
   checkAndAdd('star_collector', (stars >= 30));
   checkAndAdd('streak_master', (streak >= 3));
   checkAndAdd('keyboard_wizard', (stats.totalWordsTyped >= 100));
